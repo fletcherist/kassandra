@@ -39,10 +39,13 @@ const parseLink = (link) => {
 };
 
 const parseLinks = (links) => {
+  if (!links) {
+    return false;
+  }
   var parsedLinks = [];
   links.forEach((link) => {
     var parsedLink = parseLink(link);
-    if (parsedLinks) {
+    if (parsedLink) {
       parsedLinks.push(parsedLink);  
     }
     
@@ -54,7 +57,48 @@ const parseLinks = (links) => {
 var getPeopleForAnalyzing = async (delay => {
   var body = await (req());
   var links = findLinks(body);
-  // console.log(links);
+  analyzeOne(links[0]);
 });
+
+var analyzeOne = async(name => {
+  console.log('analyzer: analyze ' + name);
+  var body = await (req(name));
+  var questiong = findQuestions(body);
+  // var links = findLinks(body);
+  // console.log(body);
+});
+
+var findQuestions = (body) => {
+  var regex = /<h1 class="streamItemContent streamItemContent-question">([\S\s]{0,150})<\/h1>/ig;
+  var nonFormatedQuestions = body.match(regex);
+  if (!nonFormatedQuestions) {
+    return false;
+  }
+
+  var questions = [];
+  nonFormatedQuestions.forEach(question => {
+    var probQuestion = parseQuestion(question);
+    if (!probQuestion) {
+      return false;
+    }
+    questions.push(probQuestion);
+  });
+
+  console.log(questions);
+};
+
+var parseQuestion = (question) => {
+  if (!question) {
+    return false;
+  }
+
+  question = question
+    .replace('\n', '')
+    .replace('<h1 class="streamItemContent streamItemContent-question">', '')
+    .replace('</h1>', '')
+    .replace(/^\s{0,}/, '')
+    .replace(/\s{0,}$/, '');
+  return question;
+};
 
 getPeopleForAnalyzing();
