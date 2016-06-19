@@ -1,0 +1,16 @@
+{
+  "name": "kassandra",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "asyncawait": "^1.0.3",
+    "request": "^2.72.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
