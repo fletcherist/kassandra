@@ -4,6 +4,9 @@ var async = require('asyncawait/async');
 var await = require('asyncawait/await');
 var Promise = require('bluebird');
 
+
+var Filters = require('./filters');
+
 const req = (path, delay) => {
   if (!path) {
     path = '';
@@ -57,7 +60,14 @@ const parseLinks = (links) => {
 var getPeopleForAnalyzing = async (delay => {
   var body = await (req());
   var links = findLinks(body);
-  analyzeOne(links[0]);
+  if (!links) {
+    console.log('there is no people for analyzing');
+    return false;
+  }
+  links.forEach(link => {
+    analyzeOne(link);
+    await (Promise.delay(3000));
+  });
 });
 
 var analyzeOne = async(name => {
@@ -77,7 +87,7 @@ var findQuestions = (body) => {
 
   var questions = [];
   nonFormatedQuestions.forEach(question => {
-    var probQuestion = parseQuestion(question);
+    var probQuestion = Filters.filterQuestion(question);
     if (!probQuestion) {
       return false;
     }
@@ -87,33 +97,6 @@ var findQuestions = (body) => {
   console.log(questions);
 };
 
-var parseQuestion = (question) => {
-  if (!question) {
-    return false;
-  }
-  if (question.match(/\?/)) {
-    return false;
-  }
-  if (question.match(/факты/ig)) {
-    return false;
-  }
-  if (question.match(/100%/ig)) {
-    return false;
-  }
-  if (question.match(/фото|фотку|онлайн|скрин/ig)) {
-    return false;
-  }
-  question = question
-    .replace('\n', '')
-    .replace('<h1 class="streamItemContent streamItemContent-question">', '')
-    .replace('</h1>', '')
-    .replace(/^\s{0,}/, '')
-    .replace(/\s{0,}$/, '')
-    .replace(/&quot;/, ' ')
-    .replace('\n', '')
-    .replace(/&lt;/, '<')
-    .replace(/<a class="questionersName" .{0,}<\/a>/, '');
-  return question;
-};
+
 
 getPeopleForAnalyzing();
