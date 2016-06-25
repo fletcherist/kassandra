@@ -99,4 +99,4 @@ var findQuestions = (body) => {
 
 
 
-getPeopleForAnalyzing();
+module.exports.getPeopleForAnalyzing = getPeopleForAnalyzing;

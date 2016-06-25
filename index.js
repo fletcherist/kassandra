@@ -2,6 +2,8 @@ var fs = require('fs');
 var parser = require('./parser/parser');
 var dbName = 'db.json';
 
+parser.getPeopleForAnalyzing();
+
 
 const messageToObject = (message) => {
   var phrase = {
