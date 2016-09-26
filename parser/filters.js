@@ -1,4 +1,3 @@
-/*jshint esversion: 6 */
 var filterQuestion = (question) => {
   if (!question) {
     return false;

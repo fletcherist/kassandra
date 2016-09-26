@@ -5,11 +5,13 @@
   "main": "index.js",
   "dependencies": {
     "asyncawait": "^1.0.3",
+    "az": "^0.2.3",
+    "brain": "^0.7.0",
     "request": "^2.72.0"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bin": {
+    "kassandra": "./index.js"
   },
   "author": "",
   "license": "ISC"
